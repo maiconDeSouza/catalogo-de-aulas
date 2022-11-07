@@ -1,6 +1,10 @@
 const express = require('express')
 const cors = require('cors')
 
+const runDB = require('./src/db/runDB')()
+
+const adminRoutes = require('./src/routes/adminRoutes')
+
 const app = express()
 
 app.use(express.json())
@@ -14,12 +18,7 @@ const corsOptions = {
 app.use(cors(corsOptions))
 
 
-app.get('/', (req, res) => {
-    res.status(200).json({
-        msg: "ok"
-    })
-})
-
+app.use('/admin', adminRoutes)
 
 const port = 1992
 
