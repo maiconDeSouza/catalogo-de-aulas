@@ -77,7 +77,7 @@ async function checkCreatePermission(req, res, next){
             message: `usuário sem permissão para essa operação`
         })
     } catch (error) {
-        res.status(422).json({
+       return res.status(422).json({
             message: `Token Invalido`
         })
     }
@@ -112,6 +112,17 @@ async function checkDataLogin(req, res, next){
     })
 }
 
+async function confirmWebToken(req, res, next){
+    try {
+        const decoded = await WebToken.verify(req.headers.authorization)
+        req.decoded = decoded
+        return next()
+    } catch (error) {
+       return res.status(422).json({
+            message: `Token Invalido`
+        })
+    }
+}
 
 
 module.exports = {
@@ -119,5 +130,6 @@ module.exports = {
     checkPermission,
     checkUserName,
     checkCreatePermission,
-    checkDataLogin
+    checkDataLogin,
+    confirmWebToken
 }

@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 
 const WebToken = require('../helpers/WebToken')
+const EncryptPassword = require('../helpers/EncryptPassword')
 
 const schema = new mongoose.Schema({
     _id:{
@@ -58,7 +59,17 @@ async function validadePassAndUserName(loginDataObj){
             message: `Usuario ou Senha Não encontrados`
         }
     }
+
+    const isValidPassword = await EncryptPassword.comparePassword(loginDataObj.password, userName.password)
     
+    if(!isValidPassword){
+        return {
+            status: 404,
+            login: false,
+            message: `Usuario ou Senha Não encontrados`
+        }
+    }
+
     return {
         status: 200,
         login: true,
@@ -80,10 +91,32 @@ async function dataToGenerateToken(_id){
     return webToken
 }
 
+async function validadePassword(_id, password){
+    const currentPassword = await Admin.findById({_id}, {password: 1})
+    
+    const comparePassword = await EncryptPassword.comparePassword(password, currentPassword.password)
+    
+    return comparePassword
+}
+
+async function updatePassword(_id, newPassword){
+    const encryptPassword = await EncryptPassword.create(newPassword)
+    const up = await Admin.findByIdAndUpdate({_id}, {password: encryptPassword}, {new: true})
+
+    
+    if(up){
+        return true
+    } else{
+        return false
+    }
+}
+
 module.exports = {
     saveNewAdmin,
     simpleQueryUserName,
     validadePassAndUserName,
-    dataToGenerateToken
+    dataToGenerateToken,
+    validadePassword,
+    updatePassword
 }
 

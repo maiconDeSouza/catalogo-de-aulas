@@ -20,7 +20,8 @@ route.post(
 
 route.put(
     '/changepass',
-
+    AdminMiddleware.confirmWebToken,
+    AdminControllers.changePassword
 )
 
 module.exports = route

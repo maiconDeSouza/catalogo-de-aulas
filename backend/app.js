@@ -21,3 +21,6 @@ app.use('/admin', AdminsRouter)
 const port = 1992
 
 app.listen(port, () => console.log(`Servidor rodando na Porta ${port}`))
+
+
+//[verzel@123]
