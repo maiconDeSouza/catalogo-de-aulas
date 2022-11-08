@@ -1,9 +1,13 @@
 const route = require('express').Router()
 
 const AdminControllers = require('../controllers/AdminControllers')
-const ModuleControllers = require('../controllers/ModuleControllers')
 const AdminMiddleware = require('../middlewares/AdminMiddlewares')
+
+const ModuleControllers = require('../controllers/ModuleControllers')
 const ModuleMiddleware = require('../middlewares/ModuleMiddlewares')
+
+const ClassControllers = require('../controllers/ClassControllers')
+const ClassMiddleware = require('../middlewares/ClassMiddlewares')
 
 route.post(
     '/register', 
@@ -49,6 +53,31 @@ route.patch(
     '/modules',
     ModuleMiddleware.confirmWebToken,
     ModuleControllers.updateModule
+)
+
+route.post(
+    '/modules/class',
+    ClassMiddleware.confirmWebToken,
+    ClassMiddleware.checkData,
+    ClassControllers.createClass
+)
+
+route.get(
+    '/modules/class',
+    ClassMiddleware.confirmWebToken,
+    ClassControllers.getClass
+)
+
+route.delete(
+    '/modules/class',
+    ClassMiddleware.confirmWebToken,
+    ClassControllers.deleteClass
+)
+
+route.patch(
+    '/modules/class',
+    ClassMiddleware.confirmWebToken,
+    ClassControllers.updateClass
 )
 
 module.exports = route

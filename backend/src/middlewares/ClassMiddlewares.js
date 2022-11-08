@@ -4,10 +4,6 @@ const { v4: uuidv4 } = require('uuid')
 const WebToken = require('../helpers/WebToken')
 const DataValidationFunc = require('../helpers/DataValidationFunc')
 
-const ModuleModels = require('../models/ModuleModels')
-
-
-
 async function confirmWebToken(req, res, next){
     try {
         const decoded = await WebToken.verify(req.headers.authorization)
@@ -21,23 +17,20 @@ async function confirmWebToken(req, res, next){
 }
 
 async function checkData(req, res, next){
-    const { nameModule } = req.body
-
+    const { nameClass, classDate } = req.body 
     
-    // const modules = await ModuleModels.getAllModules()
-    
-    const newModuleData = {
+    const newClassData = {
         _id: uuidv4(),
-        nameModule,
-        class: []
+        nameClass,
+        classDate
     }
 
-    const usedObj = DataValidationFunc.validadeDataEntry(Object.values(newModuleData))
+    const usedObj = DataValidationFunc.validadeDataEntry(Object.values(newClassData))
     if(usedObj.hasError){
         return res.status(usedObj.status).json(usedObj.message)
     }
 
-    req.newAdminData = newModuleData
+    req.newClassData = newClassData
 
     next()
 }

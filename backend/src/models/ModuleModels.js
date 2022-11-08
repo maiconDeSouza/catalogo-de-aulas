@@ -62,6 +62,7 @@ async function updateModuleId(_id, nameModule){
 }
 
 module.exports = {
+    Module,
     saveNewModule,
     getAllModules,
     deleteModuleId,
