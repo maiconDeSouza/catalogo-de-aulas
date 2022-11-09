@@ -48,7 +48,7 @@ async function changePassword(req, res){
     const up = await AdminModels.updatePassword(decoded._id, newPassword)
     
     if(up){
-        return res.status(201).json({
+        return res.status(200).json({
             message: `Senha Atualizada com sucesso!`
         })
     } else {
