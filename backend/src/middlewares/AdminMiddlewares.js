@@ -58,9 +58,9 @@ async function checkUserName(req, res, next){
 
     const existsUserName = await AdminModels.simpleQueryUserName(userName)
 
-    if(existsUserName){
-       return res.status(422).json({
-            message: `UserName já está em uso!!!`
+    if(existsUserName.test){
+       return res.status(existsUserName.status).json({
+            message: existsUserName.message
         })
     }
     

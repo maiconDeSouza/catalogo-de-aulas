@@ -1,82 +1,82 @@
 const route = require('express').Router()
 
 const AdminControllers = require('../controllers/AdminControllers')
-const AdminMiddleware = require('../middlewares/AdminMiddlewares')
+const AdminMiddlewares = require('../middlewares/AdminMiddlewares')
 
 const ModuleControllers = require('../controllers/ModuleControllers')
-const ModuleMiddleware = require('../middlewares/ModuleMiddlewares')
+const ModuleMiddlewares = require('../middlewares/ModuleMiddlewares')
 
 const ClassControllers = require('../controllers/ClassControllers')
-const ClassMiddleware = require('../middlewares/ClassMiddlewares')
+const ClassMiddlewares = require('../middlewares/ClassMiddlewares')
 
 route.post(
     '/register', 
-    AdminMiddleware.checkData,
-    AdminMiddleware.checkPermission,
-    AdminMiddleware.checkUserName,
-    AdminMiddleware.checkCreatePermission, 
+    AdminMiddlewares.checkData,
+    AdminMiddlewares.checkPermission,
+    AdminMiddlewares.checkUserName,
+    AdminMiddlewares.checkCreatePermission, 
     AdminControllers.registerNewAdmin
 )
 
 route.post(
     '/login',
-    AdminMiddleware.checkDataLogin,
+    AdminMiddlewares.checkDataLogin,
     AdminControllers.login
 )
 
 route.put(
     '/changepass',
-    AdminMiddleware.confirmWebToken,
+    AdminMiddlewares.confirmWebToken,
     AdminControllers.changePassword
 )
 
 route.post(
     '/modules',
-    ModuleMiddleware.confirmWebToken,
-    ModuleMiddleware.checkData,
+    ModuleMiddlewares.confirmWebToken,
+    ModuleMiddlewares.checkData,
     ModuleControllers.saveModule
 )
 
 route.get(
     '/modules',
-    ModuleMiddleware.confirmWebToken,
+    ModuleMiddlewares.confirmWebToken,
     ModuleControllers.getModules
 )
 
 route.delete(
     '/modules',
-    ModuleMiddleware.confirmWebToken,
+    ModuleMiddlewares.confirmWebToken,
     ModuleControllers.deleteModule
 )
 
 route.patch(
     '/modules',
-    ModuleMiddleware.confirmWebToken,
+    ModuleMiddlewares.confirmWebToken,
     ModuleControllers.updateModule
 )
 
 route.post(
     '/modules/class',
-    ClassMiddleware.confirmWebToken,
-    ClassMiddleware.checkData,
+    ClassMiddlewares.confirmWebToken,
+    ClassMiddlewares.checkData,
     ClassControllers.createClass
 )
 
 route.get(
     '/modules/class',
-    ClassMiddleware.confirmWebToken,
+    ClassMiddlewares.confirmWebToken,
     ClassControllers.getClass
 )
 
 route.delete(
     '/modules/class',
-    ClassMiddleware.confirmWebToken,
+    ClassMiddlewares.confirmWebToken,
     ClassControllers.deleteClass
 )
 
 route.patch(
     '/modules/class',
-    ClassMiddleware.confirmWebToken,
+    ClassMiddlewares.confirmWebToken,
     ClassControllers.updateClass
 )
 

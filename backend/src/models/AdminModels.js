@@ -46,7 +46,29 @@ async function saveNewAdmin(newAdminData){
 }
 
 async function simpleQueryUserName(userName){
-    return await Admin.findOne({userName},{userName:1})
+    try {
+        const existsUserName = await Admin.findOne({userName},{userName:1})
+        if(existsUserName){
+            return {
+                test: true,
+                status: 422,
+                message: `Nome de usuário Já está em Uso!`
+            }
+        } else {
+            return {
+                test: false,
+                status: 200,
+                message: `Nome de usuário liberado!`
+            }
+        }
+        
+    } catch (error) {
+        return {
+            test: true,
+            status: 500,
+            message: `Erro no servidor!`
+        }
+    }
 }
 
 async function validadePassAndUserName(loginDataObj){
